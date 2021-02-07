@@ -1,28 +1,9 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+
 import rootReducer from "./reducer";
 
-const getDefaultCode = () => {
-  return `
-    // start hacking :)
-    // ctrl+s or cmd+s to save, otherwise you will loose your code :P 
-    // try reloading after save
-    // timestamp ${new Date()}
-    
-    `;
-};
-
-export const createTabNameData = (totalTabs) => {
-  const versionCode = +new Date();
-  const tabName = `file${totalTabs + 1}`;
-  const tabData = {
-    codeVersion: versionCode,
-    currentVersion: versionCode,
-    codeValue: getDefaultCode(),
-  };
-  return [tabName, tabData];
-};
-
+// default state
 const defaultState = {
   selectedTab: 0,
   tabs: [
@@ -37,8 +18,21 @@ const defaultState = {
       codeValue: getDefaultCode(),
     },
   ],
+  messages: [
+    // {
+    //   messageId: +new Date(),
+    //   sent: {
+    //     text: "marco",
+    //   },
+    //   reply: {
+    //     status: "loading", // can be loading/received/failed
+    //     text: "polo",
+    //   },
+    // },
+  ],
 };
 
+// initialize store
 const localStorageKey = "store";
 const saveStoreToLocalStorage = (state) => {
   const storeAsString = JSON.stringify(state);
@@ -59,6 +53,28 @@ export default store;
 //   return createStore(rootReducer, initialState, applyMiddleware(thunk));
 // }
 
+// funcs
+function getDefaultCode() {
+  return `function name (param) {
+    // start hacking :)
+    // ctrl+s or cmd+s to save, otherwise you will loose your code :P 
+    // try reloading after save
+    // timestamp ${new Date()}
+    return param === 'marco' ? 'polo' : param;
+}`;
+}
+
+export const createTabNameData = (totalTabs) => {
+  const versionCode = +new Date();
+  const tabName = `file${totalTabs + 1}`;
+  const tabData = {
+    codeVersion: versionCode,
+    currentVersion: versionCode,
+    codeValue: getDefaultCode(),
+  };
+  return [tabName, tabData];
+};
+
 // selectors
 export const getTabs = (state) => {
   const { tabs, selectedTab, codeStorage } = state;
@@ -72,4 +88,8 @@ export const getTabs = (state) => {
 export const getCurrentCodeStorage = (state) => {
   const { selectedTab, codeStorage } = state;
   return codeStorage[selectedTab].codeValue;
+};
+export const getMessages = (state) => {
+  const { messages } = state;
+  return messages;
 };

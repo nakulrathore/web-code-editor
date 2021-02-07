@@ -1,7 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+// styles
+import "../styles/tabs.scss";
+
+// func imports
 import { getTabs } from "../store";
+
+// actions
 import {
   selectTab as updateSelectedTab,
   closeTab as closeSelectedTab,
@@ -12,14 +18,16 @@ const Tabs = () => {
   const [tabsData, selectedTab, isCodeSavedInTabs] = useSelector(getTabs);
   const actionDispatcher = useDispatch();
 
-  const selectTab = (tabIndex) => {
-    actionDispatcher(updateSelectedTab(tabIndex));
-  };
-  const closeTab = (tabIndex) => {
-    actionDispatcher(closeSelectedTab(tabIndex));
-  };
-  const createTab = () => {
-    actionDispatcher(createNewTab());
+  const tabOperations = {
+    selectTab: (tabIndex) => {
+      actionDispatcher(updateSelectedTab(tabIndex));
+    },
+    closeTab: (tabIndex) => {
+      actionDispatcher(closeSelectedTab(tabIndex));
+    },
+    createTab: () => {
+      actionDispatcher(createNewTab());
+    },
   };
   return (
     <section className="tabs-wrapper">
@@ -28,32 +36,29 @@ const Tabs = () => {
           const { name } = tabData;
           return (
             <Tab
-              name={name}
               key={index}
+              name={name}
               index={index}
               selectedTab={selectedTab}
-              selectTab={selectTab}
-              closeTab={closeTab}
+              tabOperations={tabOperations}
               isCodeSaved={isCodeSavedInTabs[index]}
             />
           );
         })}
       </ul>
-      <button onClick={createTab} className="new-tab" title="new tab">
-        +
+      <button
+        onClick={tabOperations.createTab}
+        className="new-tab"
+        title="new tab"
+      >
+        ＋
       </button>
     </section>
   );
 };
 
-const Tab = ({
-  name,
-  index,
-  selectedTab,
-  selectTab,
-  closeTab,
-  isCodeSaved,
-}) => {
+const Tab = ({ name, index, selectedTab, tabOperations, isCodeSaved }) => {
+  const { selectTab, closeTab } = tabOperations;
   const handleTabSelect = () => {
     if (selectedTab !== index) {
       selectTab(index);

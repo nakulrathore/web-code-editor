@@ -1,5 +1,5 @@
 import update from "immutability-helper";
-import { defaultCode, createTabNameData } from "./store";
+import { createTabNameData } from "./store";
 
 const reducer = (state, action) => {
   const { payload } = action;
@@ -56,6 +56,41 @@ const reducer = (state, action) => {
             codeValue: {
               $set: payload,
             },
+          },
+        },
+      });
+      return newData;
+    case "SEND_MESSAGE":
+      newData = update(state, {
+        messages: {
+          $push: [
+            {
+              messageId: payload.messageId,
+              sent: {
+                text: payload.message,
+              },
+              reply: {
+                status: "loading",
+                text: "",
+              },
+            },
+          ],
+        },
+      });
+      return newData;
+    case "RECEIVE_MESSAGE":
+      newData = update(state, {
+        messages: {
+          $apply: (allMessages) => {
+            return allMessages.map((oneMessage) => {
+              if (oneMessage.messageId === payload.messageId) {
+                return {
+                  ...oneMessage,
+                  reply: payload.message,
+                };
+              }
+              return oneMessage;
+            });
           },
         },
       });

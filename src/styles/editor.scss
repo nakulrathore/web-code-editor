@@ -1,0 +1,13 @@
+@import "../styles/colors.scss";
+
+section.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  min-width: 500px;
+  height: 100%;
+  border-right: 1px solid $greyish-brown;
+  .editor {
+    flex-grow: 1;
+  }
+}

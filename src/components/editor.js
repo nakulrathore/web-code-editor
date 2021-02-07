@@ -1,7 +1,14 @@
 import React, { memo, useRef } from "react";
-import MonacoEditor from "react-monaco-editor";
 import { useSelector, useDispatch } from "react-redux";
+import MonacoEditor from "react-monaco-editor";
+
+// styles
+import "../styles/editor.scss";
+
+// store
 import { getCurrentCodeStorage } from "../store";
+
+// actions
 import { updateCodeCurrentVersion, saveCode } from "../action";
 
 const Editor = () => {
@@ -21,6 +28,7 @@ const Editor = () => {
     parameterHints: { enabled: true },
     scrollBeyondLastLine: false,
     renderLineHighlight: "none",
+    fontSize: 16,
     //   renderSideBySide: false, <- for diff
   };
 
@@ -45,6 +53,7 @@ const Editor = () => {
       <MonacoEditor
         width="100%"
         height="100%"
+        fontSize={20}
         language="javascript"
         theme="vs-dark"
         value={initialCode}

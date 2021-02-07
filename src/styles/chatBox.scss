@@ -1,0 +1,104 @@
+@import "../styles/colors.scss";
+
+.chat-bot-wrapper {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  background: $blackish;
+  .messages-view {
+    border: 1px solid $greyish-brown;
+    width: 35%;
+    min-width: 400px;
+    height: 450px;
+    overflow-y: scroll;
+    padding: 10px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: $blackish;
+    .sent-and-reply {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+      padding-bottom: 10px;
+      .msg {
+        display: flex;
+        align-items: flex-start;
+        align-content: center;
+        justify-content: left;
+
+        &.reply {
+          margin-left: auto;
+          flex-direction: row-reverse;
+        }
+        > img {
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          border: 1px solid $greyish-brown;
+        }
+        > .msg-text {
+          border-radius: 4px;
+          margin: 0px 4px;
+          padding: 7px 10px;
+          font-size: 14px;
+          line-height: 16px;
+          max-width: 150px;
+          color: $white;
+          background-color: $greyish-brown;
+          word-break: break-word;
+          font-size: 16px;
+
+          .loading {
+            animation-name: loading;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            opacity: 0;
+            animation-delay: 0.6s;
+            &::before {
+              content: "•";
+              margin-right: 5px;
+              animation-delay: 0.2s;
+              animation-name: loading;
+              animation-duration: 1.5s;
+              animation-iteration-count: infinite;
+              animation-fill-mode: both;
+            }
+            &::after {
+              margin-left: 5px;
+              content: "•";
+              animation-name: loading;
+              animation-delay: 0.8s;
+              animation-duration: 1.5s;
+              animation-iteration-count: infinite;
+              animation-fill-mode: both;
+            }
+          }
+        }
+      }
+    }
+  }
+  .chat-input {
+    width: 35%;
+    min-width: 400px;
+    border: 1px solid $greyish-brown;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    input {
+      border-radius: 0;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      font-size: 15px;
+      line-height: 17px;
+      background-color: $greyish-brown;
+      color: $white;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
